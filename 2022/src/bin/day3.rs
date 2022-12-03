@@ -86,10 +86,7 @@ fn find_dupe(rs: &Rucksack) -> char {
     panic!("no dupe found");
 }
 
-fn main() {
-    // get lines from stdin
-    let lines: Vec<String> = io::stdin().lines().filter_map(|line| line.ok()).collect();
-
+fn part1(lines: Vec<String>) {
     // create a list of rucksacks
     // each rusksack has two compartments
     // compartments are a half of the full string
@@ -101,8 +98,8 @@ fn main() {
             let right = b.chars().collect();
             Rucksack { left, right }
         })
-        .collect();
-    
+    .collect();
+
     // sum the priorities of the duplicated items
     // (items that are in both compartments of a rucksack)
     let prio_sum: u32 = sacks.iter()
@@ -110,4 +107,69 @@ fn main() {
         .map(|ch| char_to_prio(ch))
         .sum();
     println!("Part 1: {}", prio_sum);
+}
+
+type Group = [Rucksack; 3];
+
+fn find_dupe_multi(g: &Group) -> char {
+    // combine the sacks' compartments since they don't matter for P2
+    let mut groups: Vec<Vec<char>> = Vec::new();
+    for rs in g {
+        let mut v = Vec::new();
+        v.append(&mut rs.left.clone());
+        v.append(&mut rs.right.clone());
+        groups.push(v);
+    }
+
+    // find the common letter between all sacks
+    for a in &groups[0] {
+        for b in &groups[1] {
+            for c in &groups[2] {
+                if a == b && b == c {
+                    return *a;
+                }
+            }
+        }
+    }
+
+    panic!("no dupe found");
+}
+
+fn part2(lines: Vec<String>) {
+    // create a list of rucksacks
+    // each rusksack has two compartments
+    // compartments are a half of the full string
+    let sacks: Vec<Rucksack> = lines
+        .iter()
+        .map(|line| {
+            let (a, b) = line.split_at(line.len() / 2);
+            let left = a.chars().collect();
+            let right = b.chars().collect();
+            Rucksack { left, right }
+        })
+    .collect();
+    let mut groups: Vec<Group> = Vec::new();
+    {
+        let mut i = 0;
+        while i < (sacks.len() - 2) {
+            groups.push([sacks[i].clone(), sacks[i+1].clone(), sacks[i+2].clone()]);
+            i += 3;
+        }
+    }
+    
+    // sum the priorities of the duplicated items
+    // (items that are in both compartments of a rucksack)
+    let prio_sum: u32 = groups.iter()
+        .map(|rs| find_dupe_multi(rs))
+        .map(|ch| char_to_prio(ch))
+        .sum();
+    println!("Part 2: {}", prio_sum);
+}
+
+fn main() {
+    // get lines from stdin
+    let lines: Vec<String> = io::stdin().lines().filter_map(|line| line.ok()).collect();
+
+    part1(lines.clone());
+    part2(lines.clone());
 }
