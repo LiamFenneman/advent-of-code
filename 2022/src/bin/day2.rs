@@ -83,7 +83,7 @@ fn part1(lines: Vec<String>) {
 
     // GOAL: What would your total score be if everything goes exactly according to your strategy guide?
     let score = calc_total_score(rounds);
-    println!("Total score: {}", score);
+    println!("Part 1: {}", score);
 }
 
 fn part2(lines: Vec<String>) {
@@ -121,7 +121,7 @@ fn part2(lines: Vec<String>) {
 
         // GOAL: Following the Elf's instructions for the second column, what would your total score be if everything goes exactly according to your strategy guide?
     let score = calc_total_score(rounds);
-    println!("Total score: {}", score);
+    println!("Part 2: {}", score);
 }
 
 fn main() -> std::io::Result<()> {

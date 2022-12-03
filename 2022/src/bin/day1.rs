@@ -18,7 +18,7 @@ fn part1(elves: Vec<Elf>) -> std::io::Result<()> {
         return Ok(());
     };
 
-    println!("Elf {} has the most calories: {}", elf.id, elf.calories);
+    println!("Part 1: {}", elf.calories);
     Ok(())
 }
 
@@ -28,7 +28,7 @@ fn part2(mut elves: Vec<Elf>) -> std::io::Result<()> {
     let top_elves = &elves[0..3];
     let total_calories: u32 = top_elves.iter().map(|elf| elf.calories).sum();
     println!(
-        "The top three elves have a total of {} calories",
+        "Part 2: {}",
         total_calories
     );
 
