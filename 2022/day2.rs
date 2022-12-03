@@ -29,7 +29,7 @@ enum RPS {
     Scissors,
 }
 
-fn calculate_round_score(opp: RPS, res: RPS) -> u32 {
+fn calc_round_score(opp: RPS, res: RPS) -> u32 {
     use RPS::*;
     let mut score = 0;
 
@@ -53,25 +53,13 @@ fn calculate_round_score(opp: RPS, res: RPS) -> u32 {
     score
 }
 
-fn part1(rounds: Vec<Round>) {
-    // GOAL: What would your total score be if everything goes exactly according to your strategy guide?
-    let score: u32 = rounds.iter()
-        .map(|r| calculate_round_score(r.opp, r.res))
-        .sum();
-    println!("Total score: {}", score);
+fn calc_total_score(rounds: Vec<Round>) -> u32 {
+    rounds.iter()
+        .map(|r| calc_round_score(r.opp, r.res))
+        .sum()
 }
 
-fn part2(_rounds: Vec<Round>) {
-
-}
-
-fn main() -> std::io::Result<()> {
-    // get lines from stdin
-    let lines: Vec<String> = std::io::stdin()
-        .lines()
-        .filter_map(|line| line.ok())
-        .collect();
-
+fn part1(lines: Vec<String>) {
     // each round is a single line
     // -> map each line to opponent RPS and response RPS
     let rounds: Vec<Round> = lines.iter()
@@ -92,8 +80,58 @@ fn main() -> std::io::Result<()> {
             Round { opp, res }
         })
         .collect();
+
+    // GOAL: What would your total score be if everything goes exactly according to your strategy guide?
+    let score = calc_total_score(rounds);
+    println!("Total score: {}", score);
+}
+
+fn part2(lines: Vec<String>) {
+    use RPS::*;
+
+    // each round is a single line
+    // -> map each line to opponent RPS and response RPS
+    let rounds: Vec<Round> = lines.iter()
+        .map(|l| l.split(" ").collect::<Vec<&str>>())
+        .map(|v| {
+            let opp = match v[0] {
+                "A" => Rock,
+                "B" => Paper,
+                "C" => Scissors,
+                _ => panic!("invalid input")
+            };
+            // X = Lose, Y = Draw, Z = Win
+            let res = match v[1] {
+                "X" => match opp {
+                    Rock => Scissors,
+                    Paper => Rock,
+                    Scissors => Paper,
+                },
+                "Y" => opp, // draw means that the two shapes are equal
+                "Z" => match opp {
+                    Rock => Paper,
+                    Paper => Scissors,
+                    Scissors => Rock,
+                },
+                _ => panic!("invalid input")
+            };
+            Round { opp, res }
+        })
+        .collect();
+
+        // GOAL: Following the Elf's instructions for the second column, what would your total score be if everything goes exactly according to your strategy guide?
+    let score = calc_total_score(rounds);
+    println!("Total score: {}", score);
+}
+
+fn main() -> std::io::Result<()> {
+    // get lines from stdin
+    let lines: Vec<String> = std::io::stdin()
+        .lines()
+        .filter_map(|line| line.ok())
+        .collect();
     
-    part1(rounds.clone());
-    part2(rounds.clone());
+    part1(lines.clone());
+    part2(lines.clone());
     Ok(())
 }
