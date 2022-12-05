@@ -33,6 +33,22 @@ impl Movement {
             platform[self.to-1].push(c);
         }
     }
+
+    /// Execute the movement on the given platform.
+    /// -- Alternate: move multiple crates at once
+    pub fn execute_alt(&self, platform: &mut Platform) {
+        // this is achieved by popping all then pushing
+        // in reverse order
+        let mut crane: Vec<Crate> = Vec::with_capacity(self.count);
+        for i in 0..self.count {
+            let c = platform[self.from-1].pop().unwrap();
+            crane.push(c);
+        }
+
+        for &c in crane.iter().rev() {
+            platform[self.to-1].push(c);
+        }
+    }
 }
 
 impl FromStr for Movement {
@@ -108,7 +124,8 @@ fn main() -> anyhow::Result<()> {
 
     // loop through all movements, executing them
     for m in movements {
-        m.execute(&mut platform);
+        //m.execute(&mut platform);
+        m.execute_alt(&mut platform);
     }
     
     // what crate ends up on top of each stack
@@ -116,8 +133,7 @@ fn main() -> anyhow::Result<()> {
     for mut stack in platform {
         result = format!("{}{}", result, stack.pop().unwrap());
     }
-
-    println!("Part 1: {}", result);
+    println!("Result: {}", result);
 
     Ok(())
 }
