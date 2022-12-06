@@ -38,6 +38,24 @@ fn part1(chars: Vec<char>) -> usize {
     usize::MAX
 }
 
+fn part2(chars: Vec<char>) -> usize {
+    // now the window must be of size 14
+    for (i, &c) in chars.iter().enumerate().skip(13) {
+        let window = &chars[(i-13)..=i];
+
+        // are all chars unique?
+        // no? continue looping
+        if any_chars_equal(window.to_vec()) {
+            continue;
+        }
+
+        // otherwise
+        return i+1;
+    }
+
+    usize::MAX
+}
+
 fn main() {
     let chars = std::io::stdin()
         .lines()
@@ -47,4 +65,7 @@ fn main() {
 
     let ret = part1(chars.clone());
     println!("Part 1: {}", ret);
+
+    let ret = part2(chars.clone());
+    println!("Part 2: {}", ret);
 }
