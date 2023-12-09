@@ -130,17 +130,9 @@ fn part2(input: &str) -> u64 {
         .unwrap()
 }
 
-fn main() -> anyhow::Result<()> {
-    let file = std::fs::read_to_string("input/day5.txt")?;
-
-    println!("Part 1: {}", part1(&file));
-    println!("Part 2: {}", part2(&file));
-
-    Ok(())
-}
-
-#[allow(dead_code)]
-const FILE_EXAMPLE: &str = r"
+advent_of_code::setup! {
+    "day5",
+    Example: r"
 seeds: 79 14 55 13
 
 seed-to-soil map:
@@ -174,14 +166,7 @@ temperature-to-humidity map:
 humidity-to-location map:
 60 56 37
 56 93 4
-";
-
-#[test]
-fn example_part1() {
-    assert_eq!(35, part1(FILE_EXAMPLE));
-}
-
-#[test]
-fn example_part2() {
-    assert_eq!(46, part2(FILE_EXAMPLE));
+    ",
+    Part1: 35,
+    Part2: 46,
 }

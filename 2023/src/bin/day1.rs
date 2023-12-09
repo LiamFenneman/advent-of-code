@@ -49,22 +49,22 @@ impl FromStr for CalibrationValue {
     }
 }
 
-fn part1(input: &[&str]) -> u32 {
+fn part1(input: &str) -> u32 {
     // parse each line into a calibration value then sum it
     input
-        .iter()
+        .lines()
         .map(|line| line.parse::<CalibrationValue>().unwrap().0)
         .sum()
 }
 
-fn part2(input: &[&str]) -> u32 {
+fn part2(input: &str) -> u32 {
     // parse each line into a calibration value then sum it
     input
-        .iter()
+        .lines()
         // preprocess the line to replace spelled-out number (e.g. "one") with
         // the corresponding digit
         // NOTE: this is done left to right, **NOT** in numerical order
-        .map(|&line| {
+        .map(|line| {
             let chars: Vec<char> = line.chars().collect();
             let mut new_chars: Vec<char> = Vec::with_capacity(chars.len());
 
@@ -128,15 +128,21 @@ fn part2(input: &[&str]) -> u32 {
         .sum()
 }
 
-fn main() -> anyhow::Result<()> {
-    let file = std::fs::read_to_string("input/day1.txt")?;
-    let input = file
-        .split('\n')
-        .filter(|s| !s.is_empty())
-        .collect::<Vec<_>>();
-
-    println!("Part 1: {}", part1(&input));
-    println!("Part 2: {}", part2(&input));
-
-    Ok(())
+advent_of_code::setup! {
+    "day1",
+    Part1: r"
+1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet
+    " = 142,
+    Part2: r"
+two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen
+    " = 281,
 }

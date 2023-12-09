@@ -83,7 +83,6 @@ impl FromStr for History {
 fn part1(input: &str) -> i64 {
     input
         .lines()
-        .filter(|line| !line.is_empty())
         .map(|line| line.parse::<History>().unwrap())
         .map(|h| h.predict_end())
         .sum()
@@ -92,34 +91,18 @@ fn part1(input: &str) -> i64 {
 fn part2(input: &str) -> i64 {
     input
         .lines()
-        .filter(|line| !line.is_empty())
         .map(|line| line.parse::<History>().unwrap())
         .map(|h| h.predict_start())
         .sum()
 }
 
-fn main() -> anyhow::Result<()> {
-    let file = include_str!("../../input/day9.txt");
-
-    println!("Part 1: {}", part1(file));
-    println!("Part 2: {}", part2(file));
-
-    Ok(())
-}
-
-#[allow(dead_code)]
-const FILE_EXAMPLE: &str = r"
+advent_of_code::setup! {
+    "day9",
+    Example: r"
 0 3 6 9 12 15
 1 3 6 10 15 21
 10 13 16 21 30 45
-";
-
-#[test]
-fn example_part1() {
-    assert_eq!(114, part1(FILE_EXAMPLE));
-}
-
-#[test]
-fn example_part2() {
-    assert_eq!(2, part2(FILE_EXAMPLE));
+    ",
+    Part1: 114,
+    Part2: 2,
 }

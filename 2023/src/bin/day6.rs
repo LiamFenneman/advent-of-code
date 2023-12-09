@@ -75,27 +75,12 @@ fn part2(input: &str) -> u64 {
     Race { time, distance }.count_wins()
 }
 
-fn main() -> anyhow::Result<()> {
-    let file = std::fs::read_to_string("input/day6.txt")?;
-
-    println!("Part 1: {}", part1(&file));
-    println!("Part 2: {}", part2(&file));
-
-    Ok(())
-}
-
-#[allow(dead_code)]
-const FILE_EXAMPLE: &str = r"
+advent_of_code::setup! {
+    "day6",
+    Example: r"
 Time:      7  15   30
 Distance:  9  40  200
-";
-
-#[test]
-fn example_part1() {
-    assert_eq!(288, part1(FILE_EXAMPLE));
-}
-
-#[test]
-fn example_part2() {
-    assert_eq!(71503, part2(FILE_EXAMPLE));
+    ",
+    Part1: 288,
+    Part2: 71503,
 }

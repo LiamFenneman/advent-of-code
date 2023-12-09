@@ -1,7 +1,7 @@
 // Advent of Code 2023
 // Liam Fenneman
 
-use std::{collections::HashSet, str::FromStr};
+use std::str::FromStr;
 
 struct Game {
     id: u32,
@@ -123,32 +123,32 @@ impl FromStr for CubeSet {
     }
 }
 
-fn part1(input: &[&str]) -> u32 {
+fn part1(input: &str) -> u32 {
     input
-        .iter()
+        .lines()
         .map(|line| line.parse::<Game>().unwrap())
         .filter(|g| g.is_possible())
         .map(|g| g.id)
         .sum()
 }
 
-fn part2(input: &[&str]) -> u32 {
+fn part2(input: &str) -> u32 {
     input
-        .iter()
+        .lines()
         .map(|line| line.parse::<Game>().unwrap())
         .map(|g| g.power())
         .sum()
 }
 
-fn main() -> anyhow::Result<()> {
-    let file = std::fs::read_to_string("input/day2.txt")?;
-    let input = file
-        .split('\n')
-        .filter(|s| !s.is_empty())
-        .collect::<Vec<_>>();
-
-    println!("Part 1: {}", part1(&input));
-    println!("Part 2: {}", part2(&input));
-
-    Ok(())
+advent_of_code::setup! {
+    "day2",
+    Example: r"
+Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
+    ",
+    Part1: 8,
+    Part2: 2286,
 }

@@ -270,7 +270,6 @@ impl TryFrom<char> for CardPart2 {
 fn part1(input: &str) -> u64 {
     let mut hands = input
         .lines()
-        .filter(|line| !line.is_empty())
         .map(|line| line.parse::<Hand<CardPart1>>().unwrap())
         .collect::<Vec<_>>();
 
@@ -287,7 +286,6 @@ fn part1(input: &str) -> u64 {
 fn part2(input: &str) -> u64 {
     let mut hands = input
         .lines()
-        .filter(|line| !line.is_empty())
         .inspect(|line| eprintln!("{:?}", line))
         .map(|line| line.parse::<Hand<CardPart2>>().unwrap())
         .collect::<Vec<_>>();
@@ -302,30 +300,15 @@ fn part2(input: &str) -> u64 {
         .sum()
 }
 
-fn main() -> anyhow::Result<()> {
-    let file = include_str!("../../input/day7.txt");
-
-    println!("Part 1: {}", part1(file));
-    println!("Part 2: {}", part2(file));
-
-    Ok(())
-}
-
-#[allow(dead_code)]
-const FILE_EXAMPLE: &str = r"
+advent_of_code::setup! {
+    "day7",
+    Example: r"
 32T3K 765
 T55J5 684
 KK677 28
 KTJJT 220
 QQQJA 483
-";
-
-#[test]
-fn example_part1() {
-    assert_eq!(6440, part1(FILE_EXAMPLE));
-}
-
-#[test]
-fn example_part2() {
-    assert_eq!(5905, part2(FILE_EXAMPLE));
+    ",
+    Part1: 6440,
+    Part2: 5905,
 }

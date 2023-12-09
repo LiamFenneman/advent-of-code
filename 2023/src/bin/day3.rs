@@ -145,8 +145,10 @@ impl Gear {
     }
 }
 
-fn part1(input: &[&str]) -> u32 {
-    let numbers = find_numbers(input);
+fn part1(input: &str) -> u32 {
+    let input = input.lines().collect::<Vec<_>>();
+
+    let numbers = find_numbers(&input);
 
     let char_field = input
         .iter()
@@ -160,7 +162,9 @@ fn part1(input: &[&str]) -> u32 {
         .sum()
 }
 
-fn part2(input: &[&str]) -> u32 {
+fn part2(input: &str) -> u32 {
+    let input = input.lines().collect::<Vec<_>>();
+
     // find all (potential) gears
     let mut gears: Vec<Gear> = Vec::new();
     for (l, s) in input.iter().enumerate() {
@@ -175,26 +179,13 @@ fn part2(input: &[&str]) -> u32 {
         }
     }
 
-    let numbers = find_numbers(input);
+    let numbers = find_numbers(&input);
     gears.iter().map(|g| g.get_ratio(&numbers)).sum()
 }
 
-fn main() -> anyhow::Result<()> {
-    let file = std::fs::read_to_string("input/day3.txt")?;
-    let input = file
-        .split('\n')
-        .filter(|s| !s.is_empty())
-        .collect::<Vec<_>>();
-
-    println!("Part 1: {}", part1(&input));
-    println!("Part 2: {}", part2(&input));
-
-    Ok(())
-}
-
-#[test]
-fn example_part1() {
-    let file = r"
+advent_of_code::setup! {
+    "day3",
+    Example: r"
 467..114..
 ...*......
 ..35..633.
@@ -204,32 +195,8 @@ fn example_part1() {
 ..592.....
 ......755.
 ...$.*....
-.664.598..";
-    let input = file
-        .split('\n')
-        .filter(|s| !s.is_empty())
-        .collect::<Vec<_>>();
-
-    assert_eq!(4361, part1(&input));
-}
-
-#[test]
-fn example_part2() {
-    let file = r"
-467..114..
-...*......
-..35..633.
-......#...
-617*......
-.....+.58.
-..592.....
-......755.
-...$.*....
-.664.598..";
-    let input = file
-        .split('\n')
-        .filter(|s| !s.is_empty())
-        .collect::<Vec<_>>();
-
-    assert_eq!(467835, part2(&input));
+.664.598..
+    ",
+    Part1: 4361,
+    Part2: 467835,
 }

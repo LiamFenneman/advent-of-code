@@ -162,26 +162,16 @@ fn part2(input: &str) -> u64 {
     count
 }
 
-fn main() -> anyhow::Result<()> {
-    let file = include_str!("../../input/day8.txt");
-
-    println!("Part 1: {}", part1(file));
-    println!("Part 2: {}", part2(file));
-
-    Ok(())
-}
-
-#[allow(dead_code)]
-const FILE_EXAMPLE_P1: &str = r"
+advent_of_code::setup! {
+    "day8",
+    Part1: r"
 LLR
 
 AAA = (BBB, BBB)
 BBB = (AAA, ZZZ)
 ZZZ = (ZZZ, ZZZ)
-";
-
-#[allow(dead_code)]
-const FILE_EXAMPLE_P2: &str = r"
+    " = 6,
+    Part2: r"
 LR
 
 11A = (11B, XXX)
@@ -192,14 +182,5 @@ LR
 22C = (22Z, 22Z)
 22Z = (22B, 22B)
 XXX = (XXX, XXX)
-";
-
-#[test]
-fn example_part1() {
-    assert_eq!(6, part1(FILE_EXAMPLE_P1));
-}
-
-#[test]
-fn example_part2() {
-    assert_eq!(6, part2(FILE_EXAMPLE_P2));
+    " = 6,
 }
